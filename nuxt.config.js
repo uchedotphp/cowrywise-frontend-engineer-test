@@ -34,6 +34,11 @@ export default {
     '@nuxtjs/axios',
   ],
 
+  // storybook
+  storybook: {
+    // Options
+  },
+
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},
 
