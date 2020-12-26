@@ -1,7 +1,10 @@
 <template>
   <div>
     <transition name="fade" mode="out-in">
-      <div v-show="searchStatus == 'empty'" class="box-input">
+      <div
+        v-show="searchStatus == 'empty'"
+        :class="['box-input', error ? 'error-border' : '']"
+      >
         <input
           v-model="searchInput"
           :placeholder="placeHolder"
@@ -76,6 +79,42 @@
       </div>
     </transition>
     <!-- end of Searched Result -->
+
+    <!-- modal alert -->
+    <transition name="fade" mode="out-in">
+      <div v-show="errorModal" class="modal">
+        <div class="error-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="ionicon"
+            viewBox="0 0 512 512"
+          >
+            <title>Close Circle</title>
+            <path
+              d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
+              stroke="currentColor"
+              stroke-miterlimit="10"
+              stroke-width="32"
+            />
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="32"
+              d="M320 320L192 192M192 320l128-128"
+            />
+          </svg>
+        </div>
+        <div class="error-info">
+          <div class="error-title">
+            <h2>Error</h2>
+          </div>
+          <p class="error-message">Please provide an input</p>
+        </div>
+      </div>
+    </transition>
+    <!-- end of modal alert -->
   </div>
 </template>
 
@@ -92,12 +131,25 @@ export default {
     return {
       searchStatus: 'empty',
       searchInput: '',
+      error: false,
+      errorModal: false,
     }
+  },
+  watch: {
+    searchInput(newValue) {
+      if (newValue.length) {
+        this.error = false
+      }
+    },
   },
   methods: {
     startSearch() {
       if (this.searchInput.length < 1) {
-        alert('Abeg input something')
+        this.error = true
+        this.errorModal = true
+        setTimeout(() => {
+          this.errorModal = false
+        }, 3000)
       } else {
         this.searchStatus = 'fetching'
         this.$store
@@ -210,6 +262,11 @@ export default {
       }
     }
   }
+
+  //Error & Modal styles
+  .modal {
+    bottom: 2em;
+  }
 }
 
 /* Medium devices and desktops (landscape tablets, 768px and up) */
@@ -286,6 +343,57 @@ export default {
       svg {
         height: 2em;
       }
+    }
+  }
+
+  //Error & Modal styles
+  .modal {
+    top: 2em;
+  }
+}
+
+// All device size tyles for this component
+//Error & Modal styles
+.error-border {
+  border: 2px solid red;
+  border-radius: 0.8em;
+  svg,
+  ::placeholder {
+    color: red;
+  }
+}
+
+.modal {
+  margin-right: 1em;
+  display: flex;
+  background: #fff;
+  position: absolute;
+  right: 0;
+  border-radius: 0.5em;
+  padding: 1em 1.2em;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+  .error-icon {
+    margin-right: 1em;
+    svg {
+      height: 2.5em;
+      fill: red;
+      color: #fff;
+    }
+  }
+
+  .error-info {
+    .error-title {
+      margin-bottom: 0.5em;
+
+      h2 {
+        color: #000;
+        font-size: 1.3em;
+      }
+    }
+
+    .error-message {
+      color: #6d7b91;
     }
   }
 }
