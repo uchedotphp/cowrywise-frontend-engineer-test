@@ -37,10 +37,29 @@ export default {
   // storybook
   storybook: {
     // Options
+    stories: ['../../components/**/*.stories.@(js|mdx)'],
+    addons: ['@storybook/addon-knobs', '@storybook/addon-docs'],
   },
 
+  env: {},
+
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
-  axios: {},
+  axios: {
+    baseURL: 'https://api.unsplash.com',
+  },
+
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: process.env.BROWSER_BASE_URL,
+      // debug: true,
+    },
+  },
+
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: process.env.BASE_URL,
+    },
+  },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},

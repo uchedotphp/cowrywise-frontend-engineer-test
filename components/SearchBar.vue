@@ -108,9 +108,11 @@
         </div>
         <div class="error-info">
           <div class="error-title">
-            <h2>Error</h2>
+            <h2>{{ errorTitle }}</h2>
           </div>
-          <p class="error-message">Please provide an input</p>
+          <p class="error-message">
+            {{ errorMessage }}
+          </p>
         </div>
       </div>
     </transition>
@@ -126,11 +128,23 @@ export default {
       type: String,
       default: 'Search for photo',
     },
+    inputValue: {
+      type: String,
+      default: '',
+    },
+    errorMessage: {
+      type: String,
+      default: 'Please provide an input',
+    },
+    errorTitle: {
+      type: String,
+      default: 'Error',
+    },
   },
   data() {
     return {
       searchStatus: 'empty',
-      searchInput: '',
+      searchInput: this.inputValue,
       error: false,
       errorModal: false,
     }
@@ -153,23 +167,24 @@ export default {
       } else {
         this.searchStatus = 'fetching'
         this.$store
-          .dispatch('photoSearchResult', this.searchInput)
+          .dispatch('searchPhoto', this.searchInput)
           .then((response) => {
             this.searchStatus = 'completed'
             if (response === 'Not Found') {
-              this.$router.push({
-                name: '404',
-                params: {
-                  resource: 'photo',
-                },
-              })
+              // this.$router.push({
+              //   name: '404',
+              //   params: {
+              //     resource: 'photo',
+              //   },
+              // })
+              console.log('hi')
             } else {
-              this.$router.push({
-                name: 'Search',
-                params: {
-                  collection: this.searchInput,
-                },
-              })
+              // this.$router.push({
+              //   name: 'Search',
+              //   params: {
+              //     collection: this.searchInput,
+              //   },
+              // })
             }
           })
       }
@@ -177,9 +192,9 @@ export default {
     resetSearch() {
       this.searchStatus = 'empty'
       this.searchInput = ''
-      this.$router.push({
-        name: 'Home',
-      })
+      // this.$router.push({
+      //   name: 'Home',
+      // })
     },
   },
 }
@@ -352,7 +367,7 @@ export default {
   }
 }
 
-// All device size tyles for this component
+// All device size styles for this component
 //Error & Modal styles
 .error-border {
   border: 2px solid red;

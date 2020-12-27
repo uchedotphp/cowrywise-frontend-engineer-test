@@ -1,0 +1,17 @@
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks'
+import Header from './Header.vue'
+
+<Meta title="Layouts/Header" component={Header} />
+
+# Header Layout
+
+With `MDX` we can define a story for `Checkbox` right in the middle of our
+markdown documentation.
+
+<Canvas>
+<Story name="Header">
+  {{
+    template: '<Header />',
+  }}
+</Story>
+</Canvas>

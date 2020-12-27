@@ -1,0 +1,19 @@
+import { Meta, Story, Canvas, Props } from '@storybook/addon-docs/blocks';
+import SearchBar from "./SearchBar.vue";
+
+<Meta title="Components/Search bar" component={SearchBar} />
+
+# Search Input box
+
+<Props of={SearchBar} />
+
+With `MDX` we can define a story for `Checkbox` right in the middle of our
+markdown documentation.
+
+<Canvas>
+<Story name="Searchbox">
+    {{
+        template: "<SearchBar />"
+    }}
+</Story>
+</Canvas>

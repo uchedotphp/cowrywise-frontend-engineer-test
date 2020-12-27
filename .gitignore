@@ -8,6 +8,7 @@ yarn-debug.log*
 yarn-error.log*
 .nuxt-storybook
 storybook-static
+.env
 
 # Runtime data
 pids
