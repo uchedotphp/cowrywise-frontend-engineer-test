@@ -9,57 +9,28 @@
       />
     </transition-group>
   </main>
-
-  <!-- <main v-else class="photo-crib-container"> -->
-  <!-- columns -->
-  <!-- <div class="grid-col grid-col--1"></div> -->
-  <!-- <div class="grid-col grid-col--2"></div> -->
-  <!-- <div class="grid-col grid-col--3"></div> -->
-  <!-- <transition-group name="slide-fade" mode="out-in"> -->
-  <!-- <LoadingShimmer -->
-  <!-- v-for="n in 10" -->
-  <!-- :key="n" -->
-  <!-- :class="['grid-item']" -->
-  <!-- style="margin-bottom: 2em" -->
-  <!-- /> -->
-  <!-- </transition-group> -->
-  <!-- </main> -->
 </template>
 
 <script>
 import PhotoCard from '@/components/PhotoCard.vue'
+
 export default {
+  name: 'SearchPage',
   components: {
     PhotoCard,
   },
+  props: {
+    Search: String,
+  },
   data() {
     return {
-      networkStatus: false,
+      //   networkStatus: false,
     }
   },
   computed: {
     photos() {
-      return this.$store.getters.getRandomPhotos
+      return this.$store.getters.searchedPhotos
     },
-  },
-  watch: {
-    networkStatus(newValue) {
-      if (newValue) {
-        this.$router.push({
-          name: 'NetworkError',
-        })
-      }
-    },
-  },
-  created() {
-    this.$store
-      .dispatch('getRandomPhotos')
-      .then(() => {
-        this.networkStatus = this.$store.state.networkError
-      })
-      .catch((err) => {
-        console.log(err)
-      })
   },
 }
 </script>
@@ -69,8 +40,6 @@ export default {
 @media only screen and (max-width: 768px) {
   .photo-crib-container {
     display: grid;
-    // grid-row-gap: 3.5714em;
-    // margin-bottom: 2em;
 
     .grid-item {
       padding-bottom: 3.5714em;

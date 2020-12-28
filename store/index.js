@@ -49,7 +49,10 @@ export const actions = {
         if (response.total) {
           commit('SET_PHOTO_SEARCH', response.results)
         } else {
-          return 'Not Found'
+          return {
+            message: 'Not Found',
+            search: payload,
+          }
         }
       })
       .catch(function (error) {
@@ -72,4 +75,10 @@ export const actions = {
         console.log(error.config)
       })
   },
+}
+
+export const getters = {
+  getRandomPhotos: (state) => state.photos,
+  searchedPhotos: (state) => state.search,
+  networkStatus: (state) => state.networkError,
 }

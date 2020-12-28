@@ -170,21 +170,21 @@ export default {
           .dispatch('searchPhoto', this.searchInput)
           .then((response) => {
             this.searchStatus = 'completed'
-            if (response === 'Not Found') {
-              // this.$router.push({
-              //   name: '404',
-              //   params: {
-              //     resource: 'photo',
-              //   },
-              // })
-              console.log('hi')
+            const listen = response
+            if (listen.message === 'Not Found') {
+              this.$router.push({
+                name: '404',
+                params: {
+                  searchTerm: listen.search,
+                },
+              })
             } else {
-              // this.$router.push({
-              //   name: 'Search',
-              //   params: {
-              //     collection: this.searchInput,
-              //   },
-              // })
+              this.$router.push({
+                name: 'Search',
+                params: {
+                  Search: this.searchInput,
+                },
+              })
             }
           })
       }
@@ -192,9 +192,6 @@ export default {
     resetSearch() {
       this.searchStatus = 'empty'
       this.searchInput = ''
-      // this.$router.push({
-      //   name: 'Home',
-      // })
     },
   },
 }
@@ -280,7 +277,7 @@ export default {
 
   //Error & Modal styles
   .modal {
-    bottom: 2em;
+    bottom: 5em;
   }
 }
 
@@ -387,6 +384,7 @@ export default {
   border-radius: 0.5em;
   padding: 1em 1.2em;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  z-index: 10;
 
   .error-icon {
     margin-right: 1em;
@@ -414,21 +412,6 @@ export default {
 }
 
 /* Transition styles */
-.slide-fade-enter {
-  transform: translateX(10px);
-  opacity: 0;
-}
-
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-  transition: all 0.5s ease;
-}
-
-.slide-fade-leave-to {
-  transform: translateX(-10px);
-  opacity: 0;
-}
-
 .fade-enter {
   opacity: 0;
 }
