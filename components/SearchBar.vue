@@ -171,7 +171,7 @@ export default {
           .then((response) => {
             this.searchStatus = 'completed'
             const listen = response
-            if (listen.message === 'Not Found') {
+            if (listen) {
               this.$router.push({
                 name: '404',
                 params: {
