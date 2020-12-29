@@ -9,15 +9,22 @@
       />
     </transition-group>
   </main>
+
+  <main v-else class="photo-crib-container">
+    <transition-group name="slide-fade" mode="out-in">
+      <LoadingShimmer v-for="n in 9" :key="n" :class="['grid-item']" />
+    </transition-group>
+  </main>
 </template>
 
 <script>
 import PhotoCard from '@/components/PhotoCard.vue'
-
+import LoadingShimmer from '@/components/LoadingShimmer.vue'
 export default {
   name: 'SearchPage',
   components: {
     PhotoCard,
+    LoadingShimmer,
   },
   props: {
     Search: String,
@@ -50,12 +57,12 @@ export default {
 /* Medium devices and desktops (landscape tablets, 769px and up) */
 @media only screen and (min-width: 769px) {
   .photo-crib-container {
-    column-gap: 30px;
+    column-gap: 3.5714em;
     column-fill: initial;
     column-count: 3;
 
     .grid-item {
-      margin-bottom: 30px;
+      margin-bottom: 2.1429em;
       display: inline-block;
       vertical-align: top;
     }

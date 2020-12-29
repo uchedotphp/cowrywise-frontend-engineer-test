@@ -26,14 +26,14 @@
     <p v-if="resource == 'page'">
       This {{ resource }} is not found. <br />
       Goto
-      <router-link :to="{ name: 'index' }">Homepage?</router-link>
+      <nuxt-link :to="{ name: 'index' }">Homepage?</nuxt-link>
     </p>
     <p v-else>
       Your search term
       <span style="text-decoration: underline; color: red">{{ resource }}</span>
       is not found. <br />
       Goto
-      <router-link :to="{ name: 'index' }">Homepage?</router-link>
+      <nuxt-link :to="{ name: 'index' }">Homepage?</nuxt-link>
     </p>
   </main>
 </template>

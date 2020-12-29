@@ -26,7 +26,7 @@
     <div v-show="modal" class="modal">
       <!-- Modal content -->
       <span class="modal-content">
-        <span @click="closeModal" class="close">&times;</span>
+        <span class="close" @click="closeModal">&times;</span>
 
         <img
           :src="photoDetails.urls ? photoDetails.urls.regular : ''"

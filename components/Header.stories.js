@@ -1,12 +1,12 @@
-import Header from '@/components/Header.vue'
+import AppHeader from '@/components/AppHeader.vue'
 
 export default {
-  title: 'Layouts/Header',
+  title: 'Layouts/AppHeader',
 }
 
 export const header = () => ({
-  components: { Header },
-  template: '<Header />',
+  components: { AppHeader },
+  template: '<AppHeader />',
 })
 
 header.story = {

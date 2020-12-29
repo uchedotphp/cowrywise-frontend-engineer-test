@@ -169,7 +169,6 @@ export default {
         this.$store
           .dispatch('searchPhoto', this.searchInput)
           .then((response) => {
-            this.searchStatus = 'completed'
             const listen = response
             if (listen) {
               this.$router.push({
@@ -187,6 +186,7 @@ export default {
               })
             }
           })
+          .finally(() => (this.searchStatus = 'completed'))
       }
     },
     resetSearch() {
