@@ -1,7 +1,5 @@
 # cowrywise-test
 
-## Build Setup
-
 **Description:**
 >This test aims at checking the following in your implementation:
 >
@@ -38,6 +36,7 @@ Click [here](https://www.notion.so/Frontend-Engineer-Test-3a4aeb677c604ca9b41cda
 ---
 
 ---
+## Build Setup
 
 ```bash
 # install dependencies
