@@ -82,7 +82,7 @@ export default {
     // margin-bottom: 2em;
 
     .grid-item {
-      padding-bottom: 3.5714em;
+      margin-bottom: 3.5714em;
     }
   }
 }

@@ -259,6 +259,14 @@ export default {
   }
 }
 
+.photo-container {
+  img {
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
 // modal
 /* The Modal (background) */
 .modal {

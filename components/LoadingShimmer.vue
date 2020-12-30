@@ -20,7 +20,7 @@ export default {
   width: 100%;
   //   padding: 1.4286em;
   border: 1px solid #ddd;
-  border-radius: 0.5em;
+  // border-radius: 0.5em;
   background: #f5f5f5;
   //   display: flex;
   //   flex-direction: column;
