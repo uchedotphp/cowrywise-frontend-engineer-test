@@ -1,5 +1,5 @@
 <template>
-  <main v-if="photos" class="photo-crib-container">
+  <main v-if="photos.length" class="photo-crib-container">
     <transition-group name="slide-fade" mode="out-in">
       <PhotoCard
         v-for="photo in photos"

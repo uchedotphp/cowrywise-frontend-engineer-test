@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="photoDetails">
-      <div :class="['photo-container']" @click="openModal()">
+      <div :class="['photo-container']" @click="openModal()" @blur="closeModal">
         <img
           :src="photoDetails.urls ? photoDetails.urls.regular : ''"
           :alt="photoDetails.alt_description"

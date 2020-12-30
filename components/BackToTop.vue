@@ -118,7 +118,7 @@ export default {
           ? `${this.borderRadius}%`
           : `${this.borderRadius}px`,
         position: this.flowPositionFixed ? 'fixed' : 'absolute',
-        top: `calc(100vh - 5rem)`,
+        top: `calc(100vh - 5em)`,
         [position]: this.rightOrLeftSpacing + this.unit,
       },
     }

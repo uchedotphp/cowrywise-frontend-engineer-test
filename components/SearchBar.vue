@@ -9,6 +9,7 @@
           v-model="searchInput"
           :placeholder="placeHolder"
           @keyup.enter="startSearch"
+          @blur="error = false"
         />
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +83,7 @@
 
     <!-- modal alert -->
     <transition name="fade" mode="out-in">
-      <div v-show="errorModal" class="modal">
+      <div v-show="errorModal" class="modal" :style="mainModalStyle">
         <div class="error-icon">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -107,10 +108,10 @@
           </svg>
         </div>
         <div class="error-info">
-          <div class="error-title">
+          <div class="error-title" :style="errorTitleStyle">
             <h2>{{ errorTitle }}</h2>
           </div>
-          <p class="error-message">
+          <p class="error-message" :style="errorMessageStyle">
             {{ errorMessage }}
           </p>
         </div>
@@ -140,13 +141,117 @@ export default {
       type: String,
       default: 'Error',
     },
+    errorTimeout: {
+      type: Number,
+      default: 3000,
+    },
+    generalUnit: {
+      type: String,
+      default: 'em',
+    },
+    floatModalRight: {
+      type: Boolean,
+      default: true,
+    },
+    paddingTop: {
+      type: Number,
+      default: 1,
+    },
+    paddingRight: {
+      type: Number,
+      default: 1.2,
+    },
+    paddingBottom: {
+      type: Number,
+      default: 1,
+    },
+    paddingLeft: {
+      type: Number,
+      default: 1.2,
+    },
+    borderRadius: {
+      type: Number,
+      default: 0.5,
+    },
+    modalBackground: {
+      type: String,
+      default: 'fff',
+    },
+    rightOrLeftSpacing: {
+      type: Number,
+      default: 2,
+    },
+    boxShadow: {
+      type: String,
+      default: '1px 1px 2px rgba(0, 0, 0, 0.3)',
+    },
+    zIndex: {
+      type: Number,
+      default: 10,
+    },
+    errorTitleMarginTop: {
+      type: Number,
+      default: 0,
+    },
+    errorTitleMarginRight: {
+      type: Number,
+      default: 0,
+    },
+    errorTitleMarginBottom: {
+      type: Number,
+      default: 0.5,
+    },
+    errorTitleMarginLeft: {
+      type: Number,
+      default: 0,
+    },
+    errorTitleColor: {
+      type: String,
+      default: '000',
+    },
+    errorTitleFontSize: {
+      type: Number,
+      default: 1.3,
+    },
+    errorMessageFontColor: {
+      type: String,
+      default: '6d7b91',
+    },
+    errorMessageFontSize: {
+      type: Number,
+      default: 1.2,
+    },
   },
   data() {
+    const position = this.floatModalRight ? 'right' : 'left'
     return {
       searchStatus: 'empty',
       searchInput: this.inputValue,
       error: false,
       errorModal: false,
+      mainModalStyle: {
+        [position]: this.rightOrLeftSpacing + this.generalUnit,
+        background: `#${this.modalBackground}`,
+        'border-radius': this.borderRadius + this.generalUnit,
+        'padding-top': this.paddingTop + this.generalUnit,
+        'padding-right': this.paddingRight + this.generalUnit,
+        'padding-bottom': this.paddingBottom + this.generalUnit,
+        'padding-left': this.paddingLeft + this.generalUnit,
+        'box-shadow': this.boxShadow,
+        'z-index': this.zIndex,
+      },
+      errorTitleStyle: {
+        'margin-top': this.errorTitleMarginTop + this.generalUnit,
+        'margin-right': this.errorTitleMarginRight + this.generalUnit,
+        'margin-bottom': this.errorTitleMarginBottom + this.generalUnit,
+        'margin-left': this.errorTitleMarginLeft + this.generalUnit,
+        color: `#${this.errorTitleColor}`,
+        'font-size': this.errorTitleFontSize + this.generalUnit,
+      },
+      errorMessageStyle: {
+        color: `#${this.errorMessageFontColor}`,
+        'font-size': this.errorMessageFontSize + this.generalUnit,
+      },
     }
   },
   watch: {
@@ -163,7 +268,7 @@ export default {
         this.errorModal = true
         setTimeout(() => {
           this.errorModal = false
-        }, 3000)
+        }, this.errorTimeout)
       } else {
         this.searchStatus = 'fetching'
         this.$store
@@ -376,15 +481,8 @@ export default {
 }
 
 .modal {
-  margin-right: 1em;
   display: flex;
-  background: #fff;
   position: absolute;
-  right: 0;
-  border-radius: 0.5em;
-  padding: 1em 1.2em;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  z-index: 10;
 
   .error-icon {
     margin-right: 1em;
@@ -400,13 +498,9 @@ export default {
       margin-bottom: 0.5em;
 
       h2 {
-        color: #000;
-        font-size: 1.3em;
+        color: inherit;
+        font-size: inherit;
       }
-    }
-
-    .error-message {
-      color: #6d7b91;
     }
   }
 }
