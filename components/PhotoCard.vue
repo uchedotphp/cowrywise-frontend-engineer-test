@@ -44,7 +44,11 @@
                 : ''
             }}</small>
           </div>
-          <a href="" @click.prevent="download(photoDetails)">
+          <a
+            :href="photoDetails.links.download + '?force=true'"
+            target="_blank"
+            @click="downloadSuccess"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="ionicon"
@@ -65,19 +69,169 @@
       </span>
     </div>
     <!-- end of modal -->
+
+    <!-- modal alert -->
+    <transition name="fade" mode="out-in">
+      <div v-show="successModal" class="modal-success" :style="mainModalStyle">
+        <div class="success-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="ionicon"
+            viewBox="0 0 512 512"
+          >
+            <title>Checkmark Circle</title>
+            <path
+              d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
+              stroke="currentColor"
+              stroke-miterlimit="10"
+              stroke-width="32"
+            />
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="32"
+              d="M352 176L217.6 336 160 272"
+            />
+          </svg>
+        </div>
+        <div class="success-info">
+          <div class="success-title" :style="successTitleStyle">
+            <h2>{{ successTitle }}</h2>
+          </div>
+          <p class="success-message" :style="successMessageStyle">
+            {{ successMessage }}
+          </p>
+        </div>
+      </div>
+    </transition>
+    <!-- end of modal alert -->
   </div>
 </template>
 
 <script>
-// import JsFileDownloader from 'js-file-downloader'
 export default {
   name: 'PhotoCardComponent',
   props: {
     photoDetails: Object,
+    successMessage: {
+      type: String,
+      default: 'Your download has started.',
+    },
+    successTitle: {
+      type: String,
+      default: 'Success',
+    },
+    successTimeout: {
+      type: Number,
+      default: 5000,
+    },
+    generalUnit: {
+      type: String,
+      default: 'em',
+    },
+    floatModalRight: {
+      type: Boolean,
+      default: true,
+    },
+    paddingTop: {
+      type: Number,
+      default: 1,
+    },
+    paddingRight: {
+      type: Number,
+      default: 1.2,
+    },
+    paddingBottom: {
+      type: Number,
+      default: 1,
+    },
+    paddingLeft: {
+      type: Number,
+      default: 1.2,
+    },
+    borderRadius: {
+      type: Number,
+      default: 0.5,
+    },
+    modalBackground: {
+      type: String,
+      default: 'fff',
+    },
+    rightOrLeftSpacing: {
+      type: Number,
+      default: 2,
+    },
+    boxShadow: {
+      type: String,
+      default: '1px 1px 2px rgba(0, 0, 0, 0.3)',
+    },
+    zIndex: {
+      type: Number,
+      default: 99,
+    },
+    successTitleMarginTop: {
+      type: Number,
+      default: 0,
+    },
+    successTitleMarginRight: {
+      type: Number,
+      default: 0,
+    },
+    successTitleMarginBottom: {
+      type: Number,
+      default: 0.5,
+    },
+    successTitleMarginLeft: {
+      type: Number,
+      default: 0,
+    },
+    successTitleColor: {
+      type: String,
+      default: '000',
+    },
+    successTitleFontSize: {
+      type: Number,
+      default: 1.3,
+    },
+    successMessageFontColor: {
+      type: String,
+      default: '6d7b91',
+    },
+    successMessageFontSize: {
+      type: Number,
+      default: 1.2,
+    },
   },
   data() {
+    const position = this.floatModalRight ? 'right' : 'left'
     return {
       modal: false,
+      successModal: false,
+      mainModalStyle: {
+        [position]: this.rightOrLeftSpacing + this.generalUnit,
+        background: `#${this.modalBackground}`,
+        'border-radius': this.borderRadius + this.generalUnit,
+        'padding-top': this.paddingTop + this.generalUnit,
+        'padding-right': this.paddingRight + this.generalUnit,
+        'padding-bottom': this.paddingBottom + this.generalUnit,
+        'padding-left': this.paddingLeft + this.generalUnit,
+        'box-shadow': this.boxShadow,
+        'z-index': this.zIndex,
+      },
+      successTitleStyle: {
+        'margin-top': this.successTitleMarginTop + this.generalUnit,
+        'margin-right': this.successTitleMarginRight + this.generalUnit,
+        'margin-bottom': this.successTitleMarginBottom + this.generalUnit,
+        'margin-left': this.successTitleMarginLeft + this.generalUnit,
+        color: `#${this.successTitleColor}`,
+        'font-size': this.successTitleFontSize + this.generalUnit,
+      },
+      successMessageStyle: {
+        color: `#${this.successMessageFontColor}`,
+        'font-size': this.successMessageFontSize + this.generalUnit,
+      },
     }
   },
   methods: {
@@ -88,20 +242,12 @@ export default {
     closeModal() {
       this.modal = false
     },
-
-    // download(link) {
-    //   const fileUrl = `${link.links.download}`
-    //   new JsFileDownloader({
-    //     url: fileUrl,
-    //   })
-    //     .then(() => {
-    //       // Called when download ended
-    //       console.log('Downloaded')
-    //     })
-    //     .catch((error) => {
-    //       console.log('na error be this', error)
-    //     })
-    // },
+    downloadSuccess() {
+      this.successModal = true
+      setTimeout(() => {
+        this.successModal = false
+      }, this.successTimeout)
+    },
   },
 }
 </script>
@@ -372,5 +518,47 @@ export default {
     top: 0;
     opacity: 1;
   }
+}
+
+// All device size styles for this component
+//success & Modal styles
+.modal-success {
+  display: flex;
+  position: fixed;
+  top: 2em;
+
+  .success-icon {
+    margin-right: 1em;
+    svg {
+      height: 2.5em;
+      fill: #4bca81;
+      color: #fff;
+    }
+  }
+
+  .success-info {
+    .success-title {
+      margin-bottom: 0.5em;
+
+      h2 {
+        color: inherit;
+        font-size: inherit;
+      }
+    }
+  }
+}
+
+/* Transition styles */
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease-out;
+}
+
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
