@@ -260,10 +260,10 @@ export default {
 }
 
 .photo-container {
-  img {
-    &:hover {
-      opacity: 0.8;
-    }
+  &:hover {
+    border-color: rgba(30, 167, 253, 0.5);
+    transform: translate3d(0px, -3px, 0px);
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 3px 10px 0px;
   }
 }
 
