@@ -80,50 +80,21 @@
       </div>
     </transition>
     <!-- end of Searched Result -->
-
-    <!-- modal alert -->
-    <transition name="fade" mode="out-in">
-      <div v-show="errorModal" class="modal" :style="mainModalStyle">
-        <div class="error-icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="ionicon"
-            viewBox="0 0 512 512"
-          >
-            <title>Close Circle</title>
-            <path
-              d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
-              stroke="currentColor"
-              stroke-miterlimit="10"
-              stroke-width="32"
-            />
-            <path
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="32"
-              d="M320 320L192 192M192 320l128-128"
-            />
-          </svg>
-        </div>
-        <div class="error-info">
-          <div class="error-title" :style="errorTitleStyle">
-            <h2>{{ errorTitle }}</h2>
-          </div>
-          <p class="error-message" :style="errorMessageStyle">
-            {{ errorMessage }}
-          </p>
-        </div>
-      </div>
-    </transition>
-    <!-- end of modal alert -->
+    <Modals
+      v-if="errorModal"
+      :is-error="true"
+      @changeStat="errorModal = false"
+    />
   </div>
 </template>
 
 <script>
+import Modals from '@/components/TriggerModal.vue'
 export default {
   name: 'SearchBarComponent',
+  components: {
+    Modals,
+  },
   props: {
     placeHolder: {
       type: String,
@@ -133,125 +104,13 @@ export default {
       type: String,
       default: '',
     },
-    errorMessage: {
-      type: String,
-      default: 'Please provide an input',
-    },
-    errorTitle: {
-      type: String,
-      default: 'Error',
-    },
-    errorTimeout: {
-      type: Number,
-      default: 3000,
-    },
-    generalUnit: {
-      type: String,
-      default: 'em',
-    },
-    floatModalRight: {
-      type: Boolean,
-      default: true,
-    },
-    paddingTop: {
-      type: Number,
-      default: 1,
-    },
-    paddingRight: {
-      type: Number,
-      default: 1.2,
-    },
-    paddingBottom: {
-      type: Number,
-      default: 1,
-    },
-    paddingLeft: {
-      type: Number,
-      default: 1.2,
-    },
-    borderRadius: {
-      type: Number,
-      default: 0.5,
-    },
-    modalBackground: {
-      type: String,
-      default: 'fff',
-    },
-    rightOrLeftSpacing: {
-      type: Number,
-      default: 2,
-    },
-    boxShadow: {
-      type: String,
-      default: '1px 1px 2px rgba(0, 0, 0, 0.3)',
-    },
-    zIndex: {
-      type: Number,
-      default: 10,
-    },
-    errorTitleMarginTop: {
-      type: Number,
-      default: 0,
-    },
-    errorTitleMarginRight: {
-      type: Number,
-      default: 0,
-    },
-    errorTitleMarginBottom: {
-      type: Number,
-      default: 0.5,
-    },
-    errorTitleMarginLeft: {
-      type: Number,
-      default: 0,
-    },
-    errorTitleColor: {
-      type: String,
-      default: '000',
-    },
-    errorTitleFontSize: {
-      type: Number,
-      default: 1.3,
-    },
-    errorMessageFontColor: {
-      type: String,
-      default: '6d7b91',
-    },
-    errorMessageFontSize: {
-      type: Number,
-      default: 1.2,
-    },
   },
   data() {
-    const position = this.floatModalRight ? 'right' : 'left'
     return {
       searchStatus: 'empty',
       searchInput: this.inputValue,
       error: false,
       errorModal: false,
-      mainModalStyle: {
-        [position]: this.rightOrLeftSpacing + this.generalUnit,
-        background: `#${this.modalBackground}`,
-        'border-radius': this.borderRadius + this.generalUnit,
-        'padding-top': this.paddingTop + this.generalUnit,
-        'padding-right': this.paddingRight + this.generalUnit,
-        'padding-bottom': this.paddingBottom + this.generalUnit,
-        'padding-left': this.paddingLeft + this.generalUnit,
-        'box-shadow': this.boxShadow,
-        'z-index': this.zIndex,
-      },
-      errorTitleStyle: {
-        'margin-top': this.errorTitleMarginTop + this.generalUnit,
-        'margin-right': this.errorTitleMarginRight + this.generalUnit,
-        'margin-bottom': this.errorTitleMarginBottom + this.generalUnit,
-        'margin-left': this.errorTitleMarginLeft + this.generalUnit,
-        color: `#${this.errorTitleColor}`,
-        'font-size': this.errorTitleFontSize + this.generalUnit,
-      },
-      errorMessageStyle: {
-        color: `#${this.errorMessageFontColor}`,
-        'font-size': this.errorMessageFontSize + this.generalUnit,
-      },
     }
   },
   watch: {
@@ -266,9 +125,6 @@ export default {
       if (this.searchInput.length < 1) {
         this.error = true
         this.errorModal = true
-        setTimeout(() => {
-          this.errorModal = false
-        }, this.errorTimeout)
       } else {
         this.searchStatus = 'fetching'
         this.$store
@@ -379,11 +235,6 @@ export default {
       }
     }
   }
-
-  //Error & Modal styles
-  .modal {
-    bottom: 5em;
-  }
 }
 
 /* Medium devices and desktops (landscape tablets, 768px and up) */
@@ -462,46 +313,14 @@ export default {
       }
     }
   }
-
-  //Error & Modal styles
-  .modal {
-    top: 2em;
-  }
 }
 
-// All device size styles for this component
-//Error & Modal styles
 .error-border {
   border: 2px solid red;
   border-radius: 0.8em;
   svg,
   ::placeholder {
     color: red;
-  }
-}
-
-.modal {
-  display: flex;
-  position: absolute;
-
-  .error-icon {
-    margin-right: 1em;
-    svg {
-      height: 2.5em;
-      fill: red;
-      color: #fff;
-    }
-  }
-
-  .error-info {
-    .error-title {
-      margin-bottom: 0.5em;
-
-      h2 {
-        color: inherit;
-        font-size: inherit;
-      }
-    }
   }
 }
 
