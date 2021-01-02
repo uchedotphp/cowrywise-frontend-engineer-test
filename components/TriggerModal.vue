@@ -154,7 +154,7 @@ export default {
     },
     zIndex: {
       type: Number,
-      default: 90,
+      default: 99,
     },
     titleMarginTop: {
       type: Number,

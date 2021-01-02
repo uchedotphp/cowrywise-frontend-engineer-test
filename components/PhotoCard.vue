@@ -102,12 +102,6 @@ export default {
     },
     downloadSuccess() {
       this.successModal = true
-      // window.addEventListener(
-      //   'focus',
-      //   setTimeout(() => {
-      //     this.successModal = false
-      //   }, this.successTimeout)
-      // )
     },
   },
 }
