@@ -7,6 +7,7 @@
       >
         <input
           v-model="searchInput"
+          autofocus
           :placeholder="placeHolder"
           @keyup.enter="startSearch"
           @blur="error = false"
@@ -33,6 +34,15 @@
             d="M338.29 338.29L448 448"
           />
         </svg>
+        <div class="suggestion-container">
+          <div
+            v-for="pastSearch in searchQueries"
+            :key="pastSearch"
+            class="suggestion-bubbles"
+          >
+            {{ pastSearch }}
+          </div>
+        </div>
       </div>
     </transition>
 
@@ -111,12 +121,19 @@ export default {
       searchInput: this.inputValue,
       error: false,
       errorModal: false,
+      searchQueries: [],
     }
   },
   watch: {
     searchInput(newValue) {
       if (newValue.length) {
         this.error = false
+        if (localStorage.getItem('recentSearchTerm') !== null) {
+          const array = JSON.parse(localStorage.getItem('recentSearchTerm'))
+          console.log('the array', array)
+          this.searchQueries = array.filter((el) => el === this.searchInput)
+          console.log('input', this.searchQueries)
+        }
       }
     },
   },
@@ -127,9 +144,11 @@ export default {
         this.errorModal = true
       } else {
         this.searchStatus = 'fetching'
+        // this.searchQueries.push(this.searchInput)
         this.$store
           .dispatch('searchPhoto', this.searchInput)
           .then((response) => {
+            this.searchQueries = []
             const listen = response
             if (listen) {
               this.$router.push({
@@ -138,14 +157,16 @@ export default {
                   searchTerm: listen.search,
                 },
               })
-            } else {
-              this.$router.push({
-                name: 'Search',
-                params: {
-                  Search: this.searchInput,
-                },
-              })
+              console.log('hi search error')
             }
+            // else {
+            //   this.$router.push({
+            //     name: 'Search',
+            //     params: {
+            //       Search: this.searchInput,
+            //     },
+            //   })
+            // }
           })
           .finally(() => (this.searchStatus = 'completed'))
       }
@@ -263,6 +284,22 @@ export default {
       top: 1.9em;
       left: 2em;
       height: 1.5em;
+    }
+
+    .suggestion-container {
+      margin-top: 1em;
+
+      .suggestion-bubbles {
+        background: #f5f5f5;
+        padding: 0.5em 1em;
+        margin-right: 0.5em;
+        display: inline-block;
+        border-radius: 15px;
+        cursor: pointer;
+        &:hover {
+          background: #fff;
+        }
+      }
     }
   }
 

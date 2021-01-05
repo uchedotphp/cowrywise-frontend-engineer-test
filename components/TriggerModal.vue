@@ -1,76 +1,72 @@
 <template>
   <transition name="fade" mode="out-in">
-    <div v-if="isError">
-      <div class="modal" :style="mainModalStyle">
-        <div class="-icon">
-          <svg
-            style="fill: red"
-            xmlns="http://www.w3.org/2000/svg"
-            class="ionicon"
-            viewBox="0 0 512 512"
-          >
-            <title>Close Circle</title>
-            <path
-              d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
-              stroke="currentColor"
-              stroke-miterlimit="10"
-              stroke-width="32"
-            />
-            <path
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="32"
-              d="M320 320L192 192M192 320l128-128"
-            />
-          </svg>
+    <div v-if="isError" class="modal" :style="mainModalStyle">
+      <div class="-icon">
+        <svg
+          style="fill: red"
+          xmlns="http://www.w3.org/2000/svg"
+          class="ionicon"
+          viewBox="0 0 512 512"
+        >
+          <title>Close Circle</title>
+          <path
+            d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
+            stroke="currentColor"
+            stroke-miterlimit="10"
+            stroke-width="32"
+          />
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="32"
+            d="M320 320L192 192M192 320l128-128"
+          />
+        </svg>
+      </div>
+      <div class="-info">
+        <div class="-title" :style="titleStyle">
+          <h2>{{ errorTitle }}</h2>
         </div>
-        <div class="-info">
-          <div class="-title" :style="titleStyle">
-            <h2>{{ errorTitle }}</h2>
-          </div>
-          <p class="-message" :style="messageStyle">
-            {{ errorMessage }}
-          </p>
-        </div>
+        <p class="-message" :style="messageStyle">
+          {{ errorMessage }}
+        </p>
       </div>
     </div>
 
-    <div v-if="isSuccess">
-      <div class="modal" :style="mainModalStyle">
-        <div class="-icon">
-          <svg
-            style="fill: #4bca81"
-            xmlns="http://www.w3.org/2000/svg"
-            class="ionicon"
-            viewBox="0 0 512 512"
-          >
-            <title>Checkmark Circle</title>
-            <path
-              d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
-              stroke="currentColor"
-              stroke-miterlimit="10"
-              stroke-width="32"
-            />
-            <path
-              fill="none"
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="32"
-              d="M352 176L217.6 336 160 272"
-            />
-          </svg>
+    <div v-if="isSuccess" class="modal" :style="mainModalStyle">
+      <div class="-icon">
+        <svg
+          style="fill: #4bca81"
+          xmlns="http://www.w3.org/2000/svg"
+          class="ionicon"
+          viewBox="0 0 512 512"
+        >
+          <title>Checkmark Circle</title>
+          <path
+            d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
+            stroke="currentColor"
+            stroke-miterlimit="10"
+            stroke-width="32"
+          />
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="32"
+            d="M352 176L217.6 336 160 272"
+          />
+        </svg>
+      </div>
+      <div class="-info">
+        <div class="-title" :style="titleStyle">
+          <h2>{{ successTitle }}</h2>
         </div>
-        <div class="-info">
-          <div class="-title" :style="titleStyle">
-            <h2>{{ successTitle }}</h2>
-          </div>
-          <p class="-message" :style="messageStyle">
-            {{ successMessage }}
-          </p>
-        </div>
+        <p class="-message" :style="messageStyle">
+          {{ successMessage }}
+        </p>
       </div>
     </div>
   </transition>
@@ -88,10 +84,10 @@ export default {
       type: Boolean,
       default: false,
     },
-    modal: {
-      type: Boolean,
-      default: false,
-    },
+    // modal: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     errorMessage: {
       type: String,
       default: 'Please provide an input',

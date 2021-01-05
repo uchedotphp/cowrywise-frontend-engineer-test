@@ -163,7 +163,6 @@ export default {
       img {
         height: auto;
         width: 85vw;
-        // object-fit: contain;
         display: block;
         border-radius: 1em 1em 0 0;
       }
@@ -171,8 +170,8 @@ export default {
       /* The Close Button */
       .close {
         position: absolute;
-        right: -1em;
-        top: -1em;
+        right: 1em;
+        top: 0.5em;
         color: white;
         font-size: 2em;
         font-weight: bold;
@@ -192,6 +191,12 @@ export default {
     cursor: zoom-in;
     img {
       width: 100%;
+    }
+
+    &:hover {
+      border-color: rgba(30, 167, 253, 0.5);
+      transform: translate3d(0px, -3px, 0px);
+      box-shadow: rgba(0, 0, 0, 0.08) 0px 3px 10px 0px;
     }
 
     .overlay {
@@ -260,14 +265,6 @@ export default {
   }
 }
 
-.photo-container {
-  &:hover {
-    border-color: rgba(30, 167, 253, 0.5);
-    transform: translate3d(0px, -3px, 0px);
-    box-shadow: rgba(0, 0, 0, 0.08) 0px 3px 10px 0px;
-  }
-}
-
 // modal
 /* The Modal (background) */
 .modal {
@@ -298,8 +295,6 @@ export default {
     /* The Close Button */
     .close {
       position: absolute;
-      right: -1em;
-      top: -1em;
       color: white;
       font-size: 2em;
       font-weight: bold;

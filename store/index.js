@@ -1,6 +1,7 @@
 export const state = () => ({
   photos: [],
   search: [],
+  recentSearchTerm: [],
 })
 
 export const mutations = {
@@ -8,7 +9,22 @@ export const mutations = {
     state.photos = payload
   },
   SET_PHOTO_SEARCH(state, payload) {
-    state.search = payload
+    // state.search = payload.results
+    state.photos = payload.results
+
+    if (localStorage.getItem('recentSearchTerm') === null) {
+      const recentSearchTerm = []
+      recentSearchTerm.push(payload.searchTerm)
+      localStorage.setItem('recentSearchTerm', JSON.stringify(recentSearchTerm))
+    } else {
+      const recentSearchTerm = JSON.parse(
+        localStorage.getItem('recentSearchTerm')
+      )
+      recentSearchTerm.push(payload.searchTerm)
+      const cleanDuplicates = [...new Set(recentSearchTerm)]
+      localStorage.setItem('recentSearchTerm', JSON.stringify(cleanDuplicates))
+      this.recentSearchTerm = cleanDuplicates
+    }
   },
 }
 
@@ -46,8 +62,12 @@ export const actions = {
         `/search/photos?client_id=${process.env.NUXT_ENV_ACCESS_KEY}&query=${payload}`
       )
       .then((response) => {
+        // console.log('the search:', response, 'and the payload:', payload)
         if (response.total) {
-          commit('SET_PHOTO_SEARCH', response.results)
+          commit('SET_PHOTO_SEARCH', {
+            results: response.results,
+            searchTerm: payload,
+          })
         } else {
           return {
             message: 'Not Found',
@@ -80,5 +100,6 @@ export const actions = {
 export const getters = {
   getRandomPhotos: (state) => state.photos,
   searchedPhotos: (state) => state.search,
+  recentSearchTerm: (state) => state.recentSearchTerm,
   networkStatus: (state) => state.networkError,
 }

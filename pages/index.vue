@@ -21,6 +21,9 @@
 import PhotoCard from '@/components/PhotoCard.vue'
 import LoadingShimmer from '@/components/LoadingShimmer.vue'
 export default {
+  key(route) {
+    return route.fullPath
+  },
   components: {
     PhotoCard,
     LoadingShimmer,
